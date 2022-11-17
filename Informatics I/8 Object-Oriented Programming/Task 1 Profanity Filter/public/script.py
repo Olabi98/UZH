@@ -6,12 +6,31 @@
 class ProfanityFilter:
 
     def __init__(self, keywords, template):
-        pass
+        self.__keywords=sorted(keywords, key=len, reverse=True)
+        self.__template=template 
 
     def filter(self, msg):
-        pass
+        msg1=msg.lower()
+        key=[]
+        for word in self.__keywords:
+            key.append(word.lower())
+            
+        for word in key:
+            if word in msg1: 
+                count= len(word)//len(self.__template)
+                rest= len(word)%len(self.__template)
+                msg1=msg1.replace( word, count*self.__template + str(self.__template[:rest]))
 
-
+        msgtoreturn=""
+        for i in range (len(msg1)):
+            if msg1[i] in self.__template:
+                msgtoreturn+=msg1[i]
+            else:
+                msgtoreturn+= msg[i]
+        
+           
+        return msgtoreturn
+    
 # You can play around with your implementation in the body of the following 'if'.
 # The contained statements will be ignored while evaluating your solution.
 if __name__ == '__main__':
